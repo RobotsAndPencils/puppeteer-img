@@ -1,0 +1,14 @@
+{
+  "name": "puppeteer-img",
+  "version": "1.0.0",
+  "description": "Command-line tool for generating an image from a webpage using Puppeteer",
+  "preferGlobal": true,
+  "bin": "./puppeteer-img.js",
+  "main": "puppeteer-img.js",
+  "author": "Robots & Pencils",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^3.0.1",
+    "puppeteer": "^1.19.0"
+  }
+}
