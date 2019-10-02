@@ -15,14 +15,15 @@ puppeteer-img --help
   Usage: puppeteer-img [options]
 
   Options:
-    -V, --version                output the version number
-    -t, --type [type]            The file type to generate. Options are jpeg or png. Defaults to png.
-    -p, --path [path]            The file path to save the image to.
-    -w, --width [width]          The width of the browser viewport. Default is 800
-    -h, --height [height]        The height of the browser viewport. Default is 600
-    -x, --x [x]                  X coordinate for capturing a clip of the browser window
-    -y, --y [y]                  Y coordinate for capturing a clip of the browser window
-    --clip-width [clip-width]    Width of image when capturing a clip of the browser window
-    --clip-height [clip-height]  Height of image when capturing a clip of the browser window
-    -h, --help                   output usage information
+    -V, --version                           output the version number
+    -t, --type [type]                       The file type to generate. Options are jpeg or png. Defaults to png.
+    -p, --path [path]                       The file path to save the image to.
+    -w, --width [width]                     The width of the browser viewport. Default is 800
+    -h, --height [height]                   The height of the browser viewport. Default is 600
+    -s, --scale-factor [scale-factor]       Sets the device pixel scale factor when setting the viewport.  Defaults to 1.
+    -x, --x [x]                             X coordinate for capturing a clip of the browser window
+    -y, --y [y]                             Y coordinate for capturing a clip of the browser window
+    --clip-width [clip-width]               Width of image when capturing a clip of the browser window
+    --clip-height [clip-height]             Height of image when capturing a clip of the browser window
+    -h, --help                              output usage information
 ```

@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-img",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Command-line tool for generating an image from a webpage using Puppeteer",
   "preferGlobal": true,
   "bin": "./puppeteer-img.js",

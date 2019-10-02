@@ -4,11 +4,15 @@ const cli = require("commander");
 const puppeteer = require("puppeteer");
 
 cli
-  .version("1.0.0")
+  .version("1.0.1")
   .option("-t, --type [type]", "The file type to generate. Options are jpeg or png. Defaults to png.")
   .option("-p, --path [path]", "The file path to save the image to.")
   .option("-w, --width [width]", "The width of the browser viewport. Default is 800")
   .option("-h, --height [height]", "The height of the browser viewport. Default is 600")
+  .option(
+    "-s, --scale-factor [scale-factor]",
+    "Sets the device pixel scale factor when setting the viewport.  Defaults to 1."
+  )
   .option("-x, --x [x]", "X coordinate for capturing a clip of the browser window")
   .option("-y, --y [y]", "Y coordinate for capturing a clip of the browser window")
   .option("--clip-width [clip-width]", "Width of image when capturing a clip of the browser window")
@@ -18,7 +22,7 @@ cli
 function _validateInteger(value) {
   const parsed = parseInt(value);
   if (value && !parsed) {
-    console.error("Width and height values must be valid integers");
+    console.error("Number values must be valid integer");
     return null;
   }
   return parsed;
@@ -36,6 +40,7 @@ function _validateInteger(value) {
 
   viewportOptions.width = _validateInteger(cli.width) || 800;
   viewportOptions.height = _validateInteger(cli.height) || 600;
+  viewportOptions.deviceScaleFactor = _validateInteger(cli.scaleFactor) || 1;
   screenshotOptions.type = ["jpeg", "png"].includes(cli.type) ? cli.type : "png";
   screenshotOptions.path = cli.path || `./image.${screenshotOptions.type}`;
 
