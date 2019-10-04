@@ -4,7 +4,7 @@ const cli = require("commander");
 const puppeteer = require("puppeteer");
 
 cli
-  .version("1.0.1")
+  .version("1.0.2")
   .option("-t, --type [type]", "The file type to generate. Options are jpeg or png. Defaults to png.")
   .option("-p, --path [path]", "The file path to save the image to.")
   .option("-w, --width [width]", "The width of the browser viewport. Default is 800")
@@ -56,7 +56,7 @@ function _validateInteger(value) {
     }
   }
 
-  let browser = await puppeteer.launch();
+  let browser = await puppeteer.launch({ args: ["--no-sandbox"] });
   let page = await browser.newPage();
   await page.setViewport(viewportOptions);
   await page.goto(location);
