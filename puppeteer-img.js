@@ -4,19 +4,40 @@ const cli = require("commander");
 const puppeteer = require("puppeteer");
 
 cli
-  .version("1.0.2")
-  .option("-t, --type [type]", "The file type to generate. Options are jpeg or png. Defaults to png.")
+  .version("1.0.3")
+  .option(
+    "-t, --type [type]",
+    "The file type to generate. Options are jpeg or png. Defaults to png."
+  )
   .option("-p, --path [path]", "The file path to save the image to.")
-  .option("-w, --width [width]", "The width of the browser viewport. Default is 800")
-  .option("-h, --height [height]", "The height of the browser viewport. Default is 600")
+  .option(
+    "-w, --width [width]",
+    "The width of the browser viewport. Default is 800"
+  )
+  .option(
+    "-h, --height [height]",
+    "The height of the browser viewport. Default is 600"
+  )
   .option(
     "-s, --scale-factor [scale-factor]",
     "Sets the device pixel scale factor when setting the viewport.  Defaults to 1."
   )
-  .option("-x, --x [x]", "X coordinate for capturing a clip of the browser window")
-  .option("-y, --y [y]", "Y coordinate for capturing a clip of the browser window")
-  .option("--clip-width [clip-width]", "Width of image when capturing a clip of the browser window")
-  .option("--clip-height [clip-height]", "Height of image when capturing a clip of the browser window")
+  .option(
+    "-x, --x [x]",
+    "X coordinate for capturing a clip of the browser window"
+  )
+  .option(
+    "-y, --y [y]",
+    "Y coordinate for capturing a clip of the browser window"
+  )
+  .option(
+    "--clip-width [clip-width]",
+    "Width of image when capturing a clip of the browser window"
+  )
+  .option(
+    "--clip-height [clip-height]",
+    "Height of image when capturing a clip of the browser window"
+  )
   .parse(process.argv);
 
 function _validateInteger(value) {
@@ -41,7 +62,9 @@ function _validateInteger(value) {
   viewportOptions.width = _validateInteger(cli.width) || 800;
   viewportOptions.height = _validateInteger(cli.height) || 600;
   viewportOptions.deviceScaleFactor = _validateInteger(cli.scaleFactor) || 1;
-  screenshotOptions.type = ["jpeg", "png"].includes(cli.type) ? cli.type : "png";
+  screenshotOptions.type = ["jpeg", "png"].includes(cli.type)
+    ? cli.type
+    : "png";
   screenshotOptions.path = cli.path || `./image.${screenshotOptions.type}`;
 
   const clipParams = ["x", "y", "clipWidth", "clipHeight"];
@@ -56,12 +79,20 @@ function _validateInteger(value) {
     }
   }
 
-  let browser = await puppeteer.launch({ args: ["--no-sandbox"] });
-  let page = await browser.newPage();
-  await page.setViewport(viewportOptions);
-  await page.goto(location);
-  await page.screenshot(screenshotOptions);
+  puppeteer
+    .launch({
+      devtools: false,
+      args: ["--no-sandbox", "--disable-setuid-sandbox", "--single-process"],
+      ignoreHTTPSErrors: true
+    })
+    .then(async function(browser) {
+      const page = await browser.newPage();
+      await page.setViewport(viewportOptions);
+      await page.goto(location, { waitUntil: ["load"] });
+      await page.screenshot(screenshotOptions);
 
-  await browser.close();
-  process.stdout.write(screenshotOptions.path);
+      await page.close();
+      await browser.close();
+      process.stdout.write(screenshotOptions.path);
+    });
 })();
